@@ -84,7 +84,9 @@
 
 
 
-
+html {
+  scroll-behavior: smooth;
+}
 
 .breathing-image {
   -webkit-animation: breathing 7s ease-out infinite normal;
