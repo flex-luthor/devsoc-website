@@ -20,10 +20,70 @@
       href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800"
       rel="stylesheet"
     />
-    <script
-      src="https://kit.fontawesome.com/588ea81f48.js"
-      crossorigin="anonymous"
-    ></script>
+    <script type="text/Javascript">
+          var TxtRotate = function(el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+
+      };
+
+      TxtRotate.prototype.tick = function() {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+          this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+          this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+        var that = this;
+        var delta = 300 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+          delta = this.period;
+          this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+          this.isDeleting = false;
+          this.loopNum++;
+          delta = 500;
+        }
+
+        setTimeout(function() {
+          that.tick();
+        }, delta);
+      };
+
+      window.onload = function() {
+        var elements = document.getElementsByClassName('txt-rotate');
+        for (var i=0; i<elements.length; i++) {
+          var toRotate = elements[i].getAttribute('data-rotate');
+          var period = elements[i].getAttribute('data-period');
+          if (toRotate) {
+            new TxtRotate(elements[i], JSON.parse(toRotate), period);
+          }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
+        document.body.appendChild(css);
+      };
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
 
     <!-- Nucleo Icons -->
     <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
@@ -35,7 +95,7 @@
   <body class="index-page">
     <!-- Navbar -->
     <nav
-      class="navbar navbar-expand-lg fixed-top navbar-transparent "
+      class="navbar navbar-expand-lg fixed-top navbar-transparent"
       color-on-scroll="100"
     >
       <div class="container">
@@ -159,7 +219,7 @@
                   data-rotate='[ "Mobile App Club", "is now", "DevSoc;"]'
                 ></span>
               </h1>
-              <h2>Developers' Society of BITS Dubai.</h2>
+              <h2>Developers' Society of BITS Goa.</h2>
             </div>
           </div>
         </div>
@@ -184,9 +244,7 @@
                   campus.
                 </h4>
                 <div class="btn-wrapper">
-                  <a
-                    href="#project"
-                    class="btn btn-primary btn-round"
+                  <a href="#project" class="btn btn-primary btn-round"
                     >View our projects</a
                   >
                   <a
@@ -208,15 +266,18 @@
             <div class="space-70"></div>
             <div class="row">
               <div class="col-sm-8 col-lg-4">
-                <div class="plate img-raised" >
+                <div class="plate img-raised">
                   <h1 class="display-1" style="color: #03A99F;">
                     <i class="fab fa-xs fa-google-play"></i>
                     15+
                   </h1>
                   <h3 style="margin-top: -20px;">Apps on the play-store</h3>
-                  <p>We have 15+ apps on Google Play Store that have received positive feedbacks.</p> 
-                  </div>
+                  <p>
+                    We have 15+ apps on Google Play Store that have received
+                    positive feedbacks.
+                  </p>
                 </div>
+              </div>
               <div class="col-sm-8 col-lg-4">
                 <div class="plate img-raised">
                   <h1 class="display-1" style="color: #03A99F;">
@@ -232,9 +293,9 @@
                     +
                   </h1>
                   <h3 style="margin-top: -20px;">Apps downloaded so far</h3>
-                  <p>Our apps have been downloaded 4000+ times.</p>  
-                </div class="plate img-raised">
-               </div>
+                  <p>Our apps have been downloaded 4000+ times.</p>
+                </div>
+              </div>
               <div class="col-sm-8 col-lg-4">
                 <div class="plate img-raised">
                   <h1 class="display-1" style="color: #03A99F;">
@@ -243,21 +304,52 @@
                     <i class="fa fa-star fa-xs" aria-hidden="true"></i>
                     <i class="fa fa-star fa-xs" aria-hidden="true"></i>
                     <i class="fas fa-star-half fa-xs"></i>
-
-
                   </h1>
-                    <h3 style="margin-top: -20px;">Average rating of 4.7</h3>
-                    <p>
-                      Our apps have an average app rating of 4.7 out of 5 on google play-store
-                    </p>
-                  
+                  <h3 style="margin-top: -20px;">Average rating of 4.7</h3>
+                  <p>
+                    Our apps have an average app rating of 4.7 out of 5 on
+                    google play-store
+                  </p>
                 </div>
-                    </div>
+              </div>
+            </div>
+            <div
+              class="row plate img-raised"
+              style=" margin: 15px; margin-top: 40px;"
+            >
+              <div class="col-sm-8 col-lg-6">
+                <div class="achievement" style="text-align: center;">
+                  <h1 class="display-1" style="color: #03A99F;">
+                    <i class="fas fa-briefcase fa-sm"></i>
+                    90%
+                  </h1>
+                  <h3 style="margin-top: -20px;">
+                    Internships by more than 90 percent of society members
+                  </h3>
+                </div>
+              </div>
+              <div class="col-sm-8 col-lg-6">
+                <div style="text-align: center;">
+                  <h1 class="display-1" style="color: #03A99F;">
+                    &#8377;
+                    <span
+                      id="yes"
+                      class="timer"
+                      data-from="0"
+                      data-to="15000"
+                      data-speed="1000"
+                      data-target="#yesyes"
+                    ></span>
+                  </h1>
+                  <h3 style="margin-top: -20px;">
+                    Around 15k+ monthly income by freelancers
+                  </h3>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        
+
         <div class="section section-signup" id="project">
           <div class="container">
             <div class="squares square3"></div>
@@ -265,16 +357,27 @@
             <div class="squares square5"></div>
             <div class="squares square6"></div>
             <h1 class="display-2">Projects.</h1>
-            <div class="plate-b img-raised" style="background-color: rgba(0, 0, 0, 0.336);">
+            <div
+              class="plate-b img-raised"
+              style="background-color: rgba(0, 0, 0, 0.336); margin:50px;"
+            >
               <div class="row justify-content-center">
-                <div class="col-lg-7 col-md-12" style="text-align: center;">  
-                  
-              <h1 class="display-3">DoJMA</h1>
+                <div class="col-lg-7 col-md-12" style="text-align: center;">
+                  <h1 class="display-3">DoJMA</h1>
                   <p>
-                    We collaborated with Department of Journalism and Media for this app. This app grants the user access to BITS Herald which is the flagship publication of DoJMA and the Campus Watch that keeps the user abreast with the events on campus. It also contains contact details of taxi drivers, menus of eateries on the campus and also the mess menus. Along with this, the app also has links to important BITS sites such as moodle/photon etc.
-
+                    We collaborated with Department of Journalism and Media for
+                    this app. This app grants the user access to BITS Herald
+                    which is the flagship publication of DoJMA and the Campus
+                    Watch that keeps the user abreast with the events on campus.
+                    It also contains contact details of taxi drivers, menus of
+                    eateries on the campus and also the mess menus. Along with
+                    this, the app also has links to important BITS sites such as
+                    moodle/photon etc.
                   </p>
-                  <div class="btn-wrapper" style="text-align: center; margin: 10px;">
+                  <div
+                    class="btn-wrapper"
+                    style="text-align: center; margin: 10px;"
+                  >
                     <a
                       href="#project"
                       class="btn btn-primary btn-round"
@@ -290,107 +393,123 @@
                   </div>
                 </div>
                 <div class="col-lg-5 col-md-12">
-                  <img src="./assets/img/dojma.png" alt="dojma" class="img-raised">
+                  <img
+                    src="./assets/img/dojma.png"
+                    alt="dojma"
+                    class="img-raised"
+                  />
                 </div>
               </div>
             </div>
-            
+
             <div class="row justify-content-center">
               <div class="col-lg-6 col-md-12" style="text-align: center;">
-                  <div class="plate-b img-raised" style="background-color: rgba(0, 0, 0, 0.336);">
-                    <h1 class="display-3">BPGC Login.</h1>
+                <div
+                  class="plate-b img-raised"
+                  style="background-color: rgba(0, 0, 0, 0.336);"
+                >
+                  <h1 class="display-3">BPGC Login.</h1>
 
-                  <img src="./assets/img/1024px-BITS_Pilani-Logo.svg.png" alt="dojma" class="img-fluid" style="padding: 30px; width: 270px;">
-                      <p>
-                        This app lets the user directly connect to BITS Wifi network and saves you the hassle of having to enter the username and password each time you want to login. This is one of our most popular apps and used by almost every student in BITS Goa campus.    
-                      </p>
-                      <div class="btn-wrapper" style="text-align: center; margin: 10px;">
-                        <a
-                          href="#project"
-                          class="btn btn-primary btn-round"
-                          target="_blank"
-                          ><i class="fab fa-google-play"></i> Visit</a
-                        >
-                        <a
-                          href="#contact"
-                          class="btn btn-primary btn-simple btn-round btn-lg"
-                          target="_blank"
-                          ><i class="fab fa-github"></i> View Source Code</a
-                        >
-                      </div>
+                  <img
+                    src="./assets/img/1024px-BITS_Pilani-Logo.svg.png"
+                    alt="dojma"
+                    class="img-fluid"
+                    style="padding: 30px; width: 270px;"
+                  />
+                  <p>
+                    This app lets the user directly connect to BITS Wifi network
+                    and saves you the hassle of having to enter the username and
+                    password each time you want to login. This is one of our
+                    most popular apps and used by almost every student in BITS
+                    Goa campus.
+                  </p>
+                  <div
+                    class="btn-wrapper"
+                    style="text-align: center; margin: 10px;"
+                  >
+                    <a
+                      href="#project"
+                      class="btn btn-primary btn-round"
+                      target="_blank"
+                      ><i class="fab fa-google-play"></i> Visit</a
+                    >
+                    <a
+                      href="#contact"
+                      class="btn btn-primary btn-simple btn-round btn-lg"
+                      target="_blank"
+                      ><i class="fab fa-github"></i> View Source Code</a
+                    >
+                  </div>
                 </div>
               </div>
               <div class="col-lg-6 col-md-12" style="text-align: center;">
-                <div class="plate-b img-raised" style="padding: 20px;
+                <div
+                  class="plate-b img-raised"
+                  style="padding: 20px;
                 background-color: rgba(0, 0, 0, 0.336);
-              ">
+              "
+                >
                   <h1 class="display-3">Tweety Bird.</h1>
                   <img
-              src="assets/img/screen-2.png"
-              class="img-raised plate "
-              style="width: 400px; padding: 0; margin-left: 0;"
-            />
+                    src="assets/img/screen-2.png"
+                    class="img-raised plate "
+                    style="width: 400px; padding: 0; margin-left: 0;"
+                  />
 
-                      <p>Are you sitting free and bored on a bus/train seat on your way back home or just want to relax those nerves or cannot seem to find anything else to do . Here's another one of those nostalgic hyper-casual games that you cannot wait to get your hands on and will not want to get your hands off.</p>
-                    <div class="btn-wrapper" style="text-align: center; margin: 10px;">
-                      <a
-                        href="#project"
-                        class="btn btn-primary btn-round"
-                        target="_blank"
-                        ><i class="fab fa-google-play"></i> Download</a
-                      >
-                      <a
-                        href="#contact"
-                        class="btn btn-primary btn-simple btn-round btn-lg"
-                        target="_blank"
-                        ><i class="fab fa-github"></i> View Source Code</a
-                      >
-                    </div>
-              </div>
+                  <p>
+                    Are you sitting free and bored on a bus/train seat on your
+                    way back home or just want to relax those nerves or cannot
+                    seem to find anything else to do . Here's another one of
+                    those nostalgic hyper-casual games that you cannot wait to
+                    get your hands on and will not want to get your hands off.
+                  </p>
+                  <div
+                    class="btn-wrapper"
+                    style="text-align: center; margin: 10px;"
+                  >
+                    <a
+                      href="#project"
+                      class="btn btn-primary btn-round"
+                      target="_blank"
+                      ><i class="fab fa-google-play"></i> Download</a
+                    >
+                    <a
+                      href="#contact"
+                      class="btn btn-primary btn-simple btn-round btn-lg"
+                      target="_blank"
+                      ><i class="fab fa-github"></i> View Source Code</a
+                    >
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <span id="more">
-            <div class="container">    
-            <div class="row justify-content-center">
-              <div class="col-lg-6 col-md-12" style="text-align: center;">
-                  <div class="plate-b img-raised" style="background-color: rgba(0, 0, 0, 0.336);">
-                    <h1 class="display-3"><i class="fas fa-network-wired fa-xs"></i> Comrades</h1>
-                      <p>
-                        This is a file sharing platform that makes it easier for users to share files. It is a community app where users upload as well as download files.                      </p>
-                      <div class="btn-wrapper" style="text-align: center; margin: 20px;">
-                        <a
-                          href="#project"
-                          class="btn btn-primary btn-round"
-                          target="_blank"
-                          ><i class="fab fa-google-play"></i>Download</a
-                        >
-                        <a
-                          href="#contact"
-                          class="btn btn-primary btn-simple btn-round btn-lg"
-                          target="_blank"
-                          ><i class="fab fa-github"></i> View Source Code</a
-                        >
-                      </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-12" style="text-align: center;">
-                <div class="plate-b img-raised" style="padding: 20px;
-                background-color:  rgba(0, 0, 0, 0.336) ;
-              ">
-                  <h1 class="display-3">Ujala</h1>
-                      <p>
-                        This app is an initiative to help reduce power outages. 
-                      </p>
-
-                    <div class="btn-wrapper" style="text-align: center; margin: 10px;">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-12" style="text-align: center;">
+                  <div
+                    class="plate-b img-raised"
+                    style="background-color: rgba(0, 0, 0, 0.336);"
+                  >
+                    <h1 class="display-3">
+                      <i class="fas fa-network-wired fa-xs"></i> Comrades
+                    </h1>
+                    <p>
+                      This is a file sharing platform that makes it easier for
+                      users to share files. It is a community app where users
+                      upload as well as download files.
+                    </p>
+                    <div
+                      class="btn-wrapper"
+                      style="text-align: center; margin: 20px;"
+                    >
                       <a
                         href="#project"
                         class="btn btn-primary btn-round"
                         target="_blank"
-                        ><i class="fab fa-google-play"></i> Download</a
+                        ><i class="fab fa-google-play"></i>Download</a
                       >
-                      <br>
                       <a
                         href="#contact"
                         class="btn btn-primary btn-simple btn-round btn-lg"
@@ -398,38 +517,85 @@
                         ><i class="fab fa-github"></i> View Source Code</a
                       >
                     </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12" style="text-align: center;">
+                  <div
+                    class="plate-b img-raised"
+                    style="padding: 20px;
+                background-color:  rgba(0, 0, 0, 0.336) ;
+              "
+                  >
+                    <h1 class="display-3">Ujala</h1>
+                    <p>
+                      This app is an initiative to help reduce power outages.
+                    </p>
+
+                    <div
+                      class="btn-wrapper"
+                      style="text-align: center; margin: 10px;"
+                    >
+                      <a
+                        href="#project"
+                        class="btn btn-primary btn-round"
+                        target="_blank"
+                        ><i class="fab fa-google-play"></i> Download</a
+                      >
+                      <br />
+                      <a
+                        href="#contact"
+                        class="btn btn-primary btn-simple btn-round btn-lg"
+                        target="_blank"
+                        ><i class="fab fa-github"></i> View Source Code</a
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-lg-12 col-md-12" style="text-align: center;">
-                  <div class="plate-b img-raised" style="background-color: rgba(0, 0, 0, 0.336);">
-                    <h1 class="display-3"><i class="fab fa-android"></i> ARD Android App</h1>
-                      <p>
-                        This is an app for the Academic Research Division - BITS Pilani, Goa. This app includes a forum, FAQ and other essential details for the Research community at BITS Goa.                      <div class="btn-wrapper" style="text-align: center; margin: 10px;">
-                        <a
-                          href="#project"
-                          class="btn btn-primary btn-round"
-                          target="_blank"
-                          ><i class="fab fa-google-play"></i>Download</a
-                        >
-                        <a
-                          href="#contact"
-                          class="btn btn-primary btn-simple btn-round btn-lg"
-                          target="_blank"
-                          ><i class="fab fa-github"></i> View Source Code</a
-                        >
-                      </div>
+              <div class="row justify-content-center">
+                <div class="col-lg-12 col-md-12" style="text-align: center;">
+                  <div
+                    class="plate-b img-raised"
+                    style="background-color: rgba(0, 0, 0, 0.336);"
+                  >
+                    <h1 class="display-3">
+                      <i class="fab fa-android"></i> ARD Android App
+                    </h1>
+                    <p>
+                      This is an app for the Academic Research Division - BITS
+                      Pilani, Goa. This app includes a forum, FAQ and other
+                      essential details for the Research community at BITS Goa.
+                    </p>
+                    <div
+                      class="btn-wrapper"
+                      style="text-align: center; margin: 10px;"
+                    >
+                      <a
+                        href="#project"
+                        class="btn btn-primary btn-round"
+                        target="_blank"
+                        ><i class="fab fa-google-play"></i>Download</a
+                      >
+                      <a
+                        href="#contact"
+                        class="btn btn-primary btn-simple btn-round btn-lg"
+                        target="_blank"
+                        ><i class="fab fa-github"></i> View Source Code</a
+                      >
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            </div>
-          </span>        
+          </span>
           <div style="text-align: center;">
-             <button onclick="myFunction()" 
-                    id="myBtn" 
-                    class="btn btn-primary btn-simple btn-round btn-lg">View all projects</button>
+            <button
+              onclick="myFunction()"
+              id="myBtn"
+              class="btn btn-primary btn-simple btn-round btn-lg"
+            >
+              <div id="myText">View all projects</div>
+            </button>
           </div>
         </div>
         <div class="section section-basic">
@@ -437,74 +603,103 @@
           <div class="container">
             <h1 class="display-2">Highlights.</h1>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="main-timeline4">
-                        <div class="timeline">
-                            <a class="timeline-content">
-                                <span class="year">2018</span>
-                                <div class="inner-content">
-                                    <h3 class="title">CTE 2018-19</h3>
-                                    <p>
-                                      Advanced Android App Dev, Full Stack Web Dev, and iOS App Dev were offered in CTE 2018-19. The event also saw a 46-hour long Hackathon in 2019 and a 24-hour long Dev Challenge in 2018.                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="timeline">
-                            <a class="timeline-content">
-                                <span class="year">2018</span>
-                                <div class="inner-content">
-                                    <h3 class="title">QSTP 2018</h3>
-                                    <p>
-                                      QSTP 2018, a part of Quark, saw a mentor-mentee team work through the journey of android app development.                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="timeline">
-                            <a class="timeline-content">
-                                <span class="year">2017</span>
-                                <div class="inner-content">
-                                    <h3 class="title">CTE 2017-18</h3>
-                                    <p>
-                                      CTE 2017-18 had seniors guide students successfully in making Android apps, through helpful assignments and informative lectures. 
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+              <div class="col-md-12">
+                <div class="main-timeline4">
+                  <div class="timeline">
+                    <a class="timeline-content">
+                      <span class="year">2018</span>
+                      <div class="inner-content">
+                        <h3 class="title">CTE 2018-19</h3>
+                        <p>
+                          Advanced Android App Dev, Full Stack Web Dev, and iOS
+                          App Dev were offered in CTE 2018-19. The event also
+                          saw a 46-hour long Hackathon in 2019 and a 24-hour
+                          long Dev Challenge in 2018.
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="timeline">
+                    <a class="timeline-content">
+                      <span class="year">2018</span>
+                      <div class="inner-content">
+                        <h3 class="title">QSTP 2018</h3>
+                        <p>
+                          QSTP 2018, a part of Quark, saw a mentor-mentee team
+                          work through the journey of android app development.
+                        </p>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="timeline">
+                    <a class="timeline-content">
+                      <span class="year">2017</span>
+                      <div class="inner-content">
+                        <h3 class="title">CTE 2017-18</h3>
+                        <p>
+                          CTE 2017-18 had seniors guide students successfully in
+                          making Android apps, through helpful assignments and
+                          informative lectures.
+                        </p>
+                      </div>
+                    </a>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
+          </div>
         </div>
         <div class="section section-signup">
-            <img src="assets/img/path2.png" class="path breathing-image2" />
-            <div class="container">
+          <img src="assets/img/path2.png" class="path breathing-image2" />
+          <div class="container">
             <div class="row">
               <h1 class="display-2">
                 On Going Projects.
               </h1>
               <div class="col-md-12 col-xl-12">
-                
                 <!-- Nav tabs -->
-                <div class="card" >
+                <div class="card">
                   <div class="card-header">
                     <ul class="nav nav-tabs nav-tabs-primary" role="tablist">
                       <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                        <a
+                          class="nav-link active"
+                          data-toggle="tab"
+                          href="#link1"
+                          role="tablist"
+                        >
                           <i class="tim-icons icon-spaceship"></i> Tiny-URL
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
-                          <i class="fa fa-birthday-cake" aria-hidden="true"></i> Birthday Reminder
+                        <a
+                          class="nav-link"
+                          data-toggle="tab"
+                          href="#link2"
+                          role="tablist"
+                        >
+                          <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                          Birthday Reminder
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
-                          <i class="tim-icons icon-bag-16"></i> Project Management
+                        <a
+                          class="nav-link"
+                          data-toggle="tab"
+                          href="#link3"
+                          role="tablist"
+                        >
+                          <i class="tim-icons icon-bag-16"></i> Project
+                          Management
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#link4" role="tablist">
+                        <a
+                          class="nav-link"
+                          data-toggle="tab"
+                          href="#link4"
+                          role="tablist"
+                        >
                           <i class="fa fa-wifi" aria-hidden="true"></i> IoT
                         </a>
                       </li>
@@ -515,26 +710,154 @@
                     <div class="tab-content tab-space">
                       <div class="tab-pane active" id="link1">
                         <p>
-                          We are planning to create our own tiny url service for BITS Goa. This tiny url will shorten the url and convert it into 6 characters. It will have a custom name as well as the random name feature for the url.                          <br />
-                          <br/>We will create API's in node, an android interface, a web interface and Google assistant skill to create the whole product. We will be releasing it by the end of this year i.e before 31st December 2019.</p>
+                          We are planning to create our own tiny url service for
+                          BITS Goa. This tiny url will shorten the url and
+                          convert it into 6 characters. It will have a custom
+                          name as well as the random name feature for the url.
+                          <br />
+                          <br />We will create API's in node, an android
+                          interface, a web interface and Google assistant skill
+                          to create the whole product. We will be releasing it
+                          by the end of this year i.e before 31st December 2019.
+                        </p>
                       </div>
                       <div class="tab-pane" id="link2">
                         <p>
-                          This application has a very simple Node.js API interace with a cron job to check for birthdays everyday and send the user a  notification of the birthday from database.
+                          This application has a very simple Node.js API
+                          interace with a cron job to check for birthdays
+                          everyday and send the user a notification of the
+                          birthday from database.
                         </p>
                       </div>
                       <div class="tab-pane" id="link3">
                         <p>
-                          We will be creating our own project management tool right from scratch. We will be creating it according to the convenience of our campus club needs. 
-                          <br/>We are planning to have an Android and a web client application as well. This will be released by the end of February 2020.
+                          We will be creating our own project management tool
+                          right from scratch. We will be creating it according
+                          to the convenience of our campus club needs.
+                          <br />We are planning to have an Android and a web
+                          client application as well. This will be released by
+                          the end of February 2020.
                         </p>
                       </div>
                       <div class="tab-pane" id="link4">
-                        <p>We will be creating various skills to link our mess calender, BITS Goa tiny url etc. with these assistants. Using this the user can access all these features using Google Assistant in their phone or Alexa.</p>
+                        <p>
+                          We will be creating various skills to link our mess
+                          calender, BITS Goa tiny url etc. with these
+                          assistants. Using this the user can access all these
+                          features using Google Assistant in their phone or
+                          Alexa.
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section section-basic">
+          <img src="assets/img/path3.png" class="path breathing-image" />
+          <div class="container">
+            <h1 class="display-2">The Team.</h1>
+            <div class="row" style="margin-bottom: 50px;">
+              <div class="col-md-4">
+                <div
+                  class="img-raised plate profile prof"
+                  style="text-align: center;"
+                >
+                  <img
+                    src="./assets/img/priyesh.jfif"
+                    class="img-fluid rounded-circle shadow-lg"
+                    alt="nipun"
+                    style="width: 150px; margin: 20px;"
+                  />
+                  <h1 class="display-4">
+                    Priyesh Srivastava
+                  </h1>
+                  <p style="margin-top: -25px;">
+                    Cordinator
+                  </p>
+                  <div style="margin-top: 40px;">
+                    <h2>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-linkedin-in"></i>
+                      </button>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-github"></i>
+                      </button>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="img-raised plate profile prof"
+                  style="text-align: center;"
+                >
+                  <img
+                    src="./assets/img/nipun.jpeg"
+                    class="img-fluid rounded-circle shadow-lg"
+                    alt="nipun"
+                    style="width: 150px; margin: 20px;"
+                  />
+                  <h1 class="display-4">
+                    Nipun Agarwal
+                  </h1>
+                  <p style="margin-top: -25px;">
+                    Sub-Cordinator
+                  </p>
+                  <div style="margin-top: 40px;">
+                    <h2>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-linkedin-in"></i>
+                      </button>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-github"></i>
+                      </button>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  class="img-raised plate profile prof"
+                  style="text-align: center;"
+                >
+                  <img
+                    src="./assets/img/yash.jpeg"
+                    class="img-fluid rounded-circle shadow-lg"
+                    alt="nipun"
+                    style="width: 150px; margin: 20px;"
+                  />
+                  <h1 class="display-4">
+                    Yash Jain
+                  </h1>
+                  <p style="margin-top: -25px;">
+                    IOT Head
+                  </p>
+                  <div style="margin-top: 40px;">
+                    <h2>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-linkedin-in"></i>
+                      </button>
+                      <button class="btn btn-icon btn-round">
+                        <i class="fab fa-github"></i>
+                      </button>
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                class="col-md-12"
+                style="text-align: center; margin-bottom: 100px;"
+              >
+                <img
+                  src="./assets/img/team.jpeg"
+                  alt="team"
+                  class="img-raised"
+                />
               </div>
             </div>
           </div>
@@ -729,71 +1052,22 @@
         }
       });
     </script>
-    <script type="text/Javascript">
-      var TxtRotate = function(el, toRotate, period) {
-    this.toRotate = toRotate;
-    this.el = el;
-    this.loopNum = 0;
-    this.period = parseInt(period, 10) || 2000;
-    this.txt = '';
-    this.tick();
-    this.isDeleting = false;
 
-  };
-
-  TxtRotate.prototype.tick = function() {
-    var i = this.loopNum % this.toRotate.length;
-    var fullTxt = this.toRotate[i];
-
-    if (this.isDeleting) {
-      this.txt = fullTxt.substring(0, this.txt.length - 1);
-    } else {
-      this.txt = fullTxt.substring(0, this.txt.length + 1);
-    }
-
-    this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
-
-    var that = this;
-    var delta = 300 - Math.random() * 100;
-
-    if (this.isDeleting) { delta /= 2; }
-
-    if (!this.isDeleting && this.txt === fullTxt) {
-      delta = this.period;
-      this.isDeleting = true;
-    } else if (this.isDeleting && this.txt === '') {
-      this.isDeleting = false;
-      this.loopNum++;
-      delta = 500;
-    }
-
-    setTimeout(function() {
-      that.tick();
-    }, delta);
-  };
-
-  window.onload = function() {
-    var elements = document.getElementsByClassName('txt-rotate');
-    for (var i=0; i<elements.length; i++) {
-      var toRotate = elements[i].getAttribute('data-rotate');
-      var period = elements[i].getAttribute('data-period');
-      if (toRotate) {
-        new TxtRotate(elements[i], JSON.parse(toRotate), period);
+    <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
+    <script
+      src="./assets/js/blk-design-system.min.js?v=1.0.0"
+      type="text/javascript"
+    ></script>
+    <script>
+      function myFunction() {
+        $("#more").slideToggle(200);
+        $("#myText").text(
+          $("#myText").text() == "View all projects"
+            ? "Hide Projects"
+            : "View all projects"
+        );
       }
-    }
-    // INJECT CSS
-    var css = document.createElement("style");
-    css.type = "text/css";
-    css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
-    document.body.appendChild(css);
-  };
-</script>
-<script>
-function myFunction() {
-$('#more').slideToggle(200);
-$('#myBtn').text($('#myBtn').text() == 'View all projects' ? 'Hide Projects' : 'View all projects');
-}
-</script>
+    </script>
     <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
     <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
     <script src="./assets/js/plugins/bootstrap-switch.js"></script>
